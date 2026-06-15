@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAuthStore } from "../store/authStore";
 
 const EmailVerification = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
   const navigate = useNavigate();
-  const isLoading = false;
+  const { verifyEmail, error, isLoading, user } = useAuthStore();
 
   const handlePaste = (e) => {
     e.preventDefault();
@@ -69,10 +70,20 @@ const EmailVerification = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user) {
+      console.error("User not found");
+      return;
+    }
     const verificationCode = code.join("");
     console.log(`Verification code submitted: ${verificationCode}`);
+    try {
+      await verifyEmail(user.email, code.join(""));
+      navigate("/login");
+    } catch (error) {
+      console.error("Email verification error:", error);
+    }
   };
 
   //Auto submit when all digits are filled
@@ -112,6 +123,15 @@ const EmailVerification = () => {
               />
             ))}
           </div>
+          {error && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-red-500 font-semibold mb-2"
+            >
+              {error}
+            </motion.p>
+          )}
           <motion.button
             className="mt-5 w-full bg-linear-to-r from-green-500 to-emerald-600 text-white font-bold py-3 cursor-pointer px-4 rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             whileHover={{ scale: 1.05 }}

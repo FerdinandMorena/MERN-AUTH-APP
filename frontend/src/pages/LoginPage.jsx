@@ -3,14 +3,22 @@ import { motion } from "framer-motion";
 import { Mail, Lock, Loader } from "lucide-react";
 import Input from "../components/Input";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const isLoading = false;
+  const { login, isLoading, error } = useAuthStore();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      await login(email, password);
+      toast.success("Login successful");
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   return (
@@ -21,7 +29,7 @@ const LoginPage = () => {
       className="max-w-md w-full bg-gray-800/50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
     >
       <div className="p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center bg-linear-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-linear-to-r from-blue-400 to-slate-400 text-transparent bg-clip-text">
           Welcome Back
         </h2>
         <form onSubmit={handleLogin}>
@@ -43,13 +51,22 @@ const LoginPage = () => {
           <div className="flex items-center mb-6">
             <Link
               to="/forgot-password"
-              className="text-sm text-green-400 hover:underline"
+              className="text-sm text-blue-400 hover:underline"
             >
               Forgot Password?
             </Link>
           </div>
+          {error && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-red-500 font-semibold mb-2"
+            >
+              {error}
+            </motion.p>
+          )}
           <motion.button
-            className="mt-5 w-full bg-linear-to-r from-green-500 to-emerald-600 text-white font-bold py-3 cursor-pointer px-4 rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
+            className="mt-5 w-full bg-linear-to-r from-blue-700 to-slate-800 text-white font-bold py-3 cursor-pointer px-4 rounded-lg shadow-lg hover:from-blue-800 hover:to-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
@@ -65,7 +82,7 @@ const LoginPage = () => {
       <div className="px-8 py-4 bg-gray-900/50 flex justify-center">
         <p className="text-gray-400 text-sm">
           Don't have an account?{" "}
-          <Link to={"/signup"} className="text-green-400 hover:underline">
+          <Link to={"/signup"} className="text-blue-400 hover:underline">
             Sign Up
           </Link>
         </p>

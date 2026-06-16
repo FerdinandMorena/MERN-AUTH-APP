@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
@@ -18,7 +19,7 @@ const SignUpPage = () => {
 
     try {
       await signup(email, password, name);
-      console.log("Sign up successful");
+      toast.success("Sign up successful");
       navigate("/verify-email");
     } catch (error) {
       console.error("Sign up error:", error);
@@ -32,7 +33,7 @@ const SignUpPage = () => {
       className="max-w-md w-full bg-gray-800/50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
     >
       <div className="p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center bg-linear-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-linear-to-r from-blue-400 to-slate-400 text-transparent bg-clip-text">
           Create Account
         </h2>
         <form onSubmit={handleSignUp}>
@@ -71,7 +72,7 @@ const SignUpPage = () => {
           <PasswordStrengthMeter password={password} />
 
           <motion.button
-            className="mt-5 w-full bg-linear-to-r from-green-500 to-emerald-600 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
+            className="mt-5 w-full bg-linear-to-r from-blue-700 to-slate-800 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-blue-800 hover:to-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
@@ -88,7 +89,7 @@ const SignUpPage = () => {
       <div className="px-8 py-4 bg-gray-900/50 flex justify-center">
         <p className="text-gray-400 text-sm">
           Already have an account?{" "}
-          <Link to={"/login"} className="text-green-400 hover:underline">
+          <Link to={"/login"} className="text-blue-400 hover:underline">
             Log in
           </Link>
         </p>

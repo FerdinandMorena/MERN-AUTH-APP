@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuthStore } from "../store/authStore";
+import { toast } from "react-hot-toast";
 
 const EmailVerification = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -79,8 +81,9 @@ const EmailVerification = () => {
     const verificationCode = code.join("");
     console.log(`Verification code submitted: ${verificationCode}`);
     try {
-      await verifyEmail(user.email, code.join(""));
-      navigate("/login");
+      await verifyEmail(verificationCode);
+      navigate("/");
+      toast.success("Email verified successfully!");
     } catch (error) {
       console.error("Email verification error:", error);
     }
@@ -101,7 +104,7 @@ const EmailVerification = () => {
         transition={{ duration: 0.5 }}
         className="bg-gray-800/50 backdrop:filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden p-8 w-full max-w-md"
       >
-        <h2 className="text-3xl font-bold mb-6 text-center bg-linear-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-linear-to-r from-blue-400 to-slate-400 text-transparent bg-clip-text">
           Verify Your Email
         </h2>
         <p className="text-center text-gray-300 mb-6">
@@ -119,7 +122,7 @@ const EmailVerification = () => {
                 onKeyDown={(e) => handleKeyDown(index, e)}
                 onClick={() => handleInputClick(index)}
                 onPaste={handlePaste}
-                className="w-12 h-12 text-center text-2xl font-bold bg-gray-700 text-white border-2 border-gray-600 rounded-lg focus:outline-none focus:border-green-500"
+                className="w-12 h-12 text-center text-2xl font-bold bg-gray-700 text-white border-2 border-gray-600 rounded-lg focus:outline-none focus:border-blue-500"
               />
             ))}
           </div>
@@ -133,7 +136,7 @@ const EmailVerification = () => {
             </motion.p>
           )}
           <motion.button
-            className="mt-5 w-full bg-linear-to-r from-green-500 to-emerald-600 text-white font-bold py-3 cursor-pointer px-4 rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-5 w-full bg-linear-to-r from-blue-700 to-slate-800 text-white font-bold py-3 cursor-pointer px-4 rounded-lg shadow-lg hover:from-blue-800 hover:to-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"

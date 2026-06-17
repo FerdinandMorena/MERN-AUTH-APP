@@ -4,21 +4,18 @@ import {
   WELCOME_EMAIL_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
 } from "./emailTemplates.js";
-import { mailtrapClient, sender } from "./mailtrap.config.js";
+import { transactionalEmailsApi, sender } from "./brevo.config.js";
 
 export const sendVerificationEmail = async (email, verificationToken) => {
-  const recipient = [{ email }];
-
   try {
-    const response = await mailtrapClient.send({
-      from: sender,
-      to: recipient,
+    const response = await transactionalEmailsApi.sendTransacEmail({
+      to: [{ email }],
+      sender: sender,
       subject: "Please verify your email",
-      html: VERIFICATION_EMAIL_TEMPLATE.replace(
+      htmlContent: VERIFICATION_EMAIL_TEMPLATE.replace(
         "{verificationCode}",
         verificationToken,
       ),
-      category: "Email Verification",
     });
 
     console.log("Email sent successfully:", response);
@@ -29,15 +26,12 @@ export const sendVerificationEmail = async (email, verificationToken) => {
 };
 
 export const sendWelcomeEmail = async (email, name) => {
-  const recipient = [{ email }];
-
   try {
-    const response = await mailtrapClient.send({
-      from: sender,
-      to: recipient,
+    const response = await transactionalEmailsApi.sendTransacEmail({
+      to: [{ email }],
+      sender: sender,
       subject: "Welcome to Auth App!",
-      html: WELCOME_EMAIL_TEMPLATE.replace("{name}", name),
-      category: "Welcome Email",
+      htmlContent: WELCOME_EMAIL_TEMPLATE.replace("{name}", name),
     });
     console.log("Welcome email sent successfully:", response);
   } catch (err) {
@@ -47,15 +41,15 @@ export const sendWelcomeEmail = async (email, name) => {
 };
 
 export const sendResetPasswordEmail = async (email, resetUrl) => {
-  const recipient = [{ email }];
-
   try {
-    const response = await mailtrapClient.send({
-      from: sender,
-      to: recipient,
+    const response = await transactionalEmailsApi.sendTransacEmail({
+      to: [{ email }],
+      sender: sender,
       subject: "Reset your password",
-      html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetUrl),
-      category: "Password Reset",
+      htmlContent: PASSWORD_RESET_REQUEST_TEMPLATE.replace(
+        "{resetURL}",
+        resetUrl,
+      ),
     });
     console.log("Password reset email sent successfully:", response);
   } catch (error) {
@@ -65,14 +59,12 @@ export const sendResetPasswordEmail = async (email, resetUrl) => {
 };
 
 export const sendPasswordResetSuceessEmail = async (email) => {
-  const recipient = [{ email }];
   try {
-    const response = await mailtrapClient.send({
-      from: sender,
-      to: recipient,
+    const response = await transactionalEmailsApi.sendTransacEmail({
+      to: [{ email }],
+      sender: sender,
       subject: "Password reset successfully",
-      html: PASSWORD_RESET_SUCCESS_TEMPLATE,
-      category: "Password Reset Success",
+      htmlContent: PASSWORD_RESET_SUCCESS_TEMPLATE,
     });
     console.log("Password reset success email sent successfully:", response);
   } catch (error) {

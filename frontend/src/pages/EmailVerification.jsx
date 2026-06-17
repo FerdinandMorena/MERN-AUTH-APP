@@ -136,7 +136,7 @@ const EmailVerification = () => {
             </motion.p>
           )}
           <motion.button
-            className="mt-5 w-full bg-linear-to-r from-blue-700 to-slate-800 text-white font-bold py-3 cursor-pointer px-4 rounded-lg shadow-lg hover:from-blue-800 hover:to-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-5 w-full bg-linear-to-r from-blue-700 to-blue-900 text-white font-bold py-3 cursor-pointer px-4 rounded-lg shadow-lg hover:from-blue-800 hover:to-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"

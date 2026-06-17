@@ -72,7 +72,7 @@ const SignUpPage = () => {
           <PasswordStrengthMeter password={password} />
 
           <motion.button
-            className="mt-5 w-full bg-linear-to-r from-blue-700 to-slate-800 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-blue-800 hover:to-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
+            className="mt-5 w-full bg-linear-to-r from-blue-700 to-blue-900 cursor-pointer text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-blue-800 hover:to-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
